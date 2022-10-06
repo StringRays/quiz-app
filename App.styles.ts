@@ -44,7 +44,7 @@ export const Wrapper = styled.div`
         margin: 20px;
     }
 
-    .start, .next {
+    .start, .next, .changeLevel {
         cursor: pointer;
         background: linear-gradient(180deg, #fff, #346B31);
         border: 2px solid #346B31;
@@ -55,7 +55,7 @@ export const Wrapper = styled.div`
         padding: 0 40px;    
     }
 
-    .start {
+    .start, .changeLevel {
         max-width: 200px;
     }
 `

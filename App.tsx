@@ -20,6 +20,7 @@ const App = () => {
   const [questions, setQuestions] = useState<QuestionState[]>([]);
   const [number, setNumber] = useState(0);
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
+  const [level, setLevel] = useState(Difficulty.EASY);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
 
@@ -28,10 +29,10 @@ const App = () => {
   const startQuiz = async () => {
     setLoading(true);
     setGameOver(false);
-    
     const newQuestions = await fetchQuizQuestions(
       TOTAL_QUESTIONS,
-      Difficulty.EASY
+      level
+      //Difficulty.EASY
       );
 
     setQuestions(newQuestions);
@@ -66,6 +67,12 @@ const App = () => {
     }
   };
 
+  const changeDifficulty = () => {
+    setLevel(prev => 
+      prev === "easy" ? Difficulty.MEDIUM : prev === "medium" ? Difficulty.HARD : Difficulty.EASY
+    )
+  }
+
   return (
     <>
     <GlobalStyle />
@@ -73,9 +80,12 @@ const App = () => {
       {/* <img src={logo} className="App-logo" alt="logo" /> */}
       <h1>React Quiz</h1>
       {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
-      <button className="startQuiz" onClick={startQuiz}>Start Quiz</button>
+        <>
+      <button className="changeLevel" onClick={changeDifficulty}>Difficulty: {level}</button>
+      <button className="start" onClick={startQuiz}>Start Quiz</button>
+        </>
       ) : null}
-      {!gameOver ? <p className="score">Score: {score}</p> : null}
+      {!gameOver ? <p className="score">Score: {score}/{TOTAL_QUESTIONS} Current Level: {level}</p> : null}
       {loading && <p>Loading questions...</p>}
       {!loading && !gameOver && (
       <QuestionCard 
